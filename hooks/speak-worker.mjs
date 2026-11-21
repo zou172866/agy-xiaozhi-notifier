@@ -100,9 +100,9 @@ const MEI_EMOTION_FALLBACK = {
 };
 
 const GENERIC_DONE_TEMPLATES = [
-  '反重力的任务已经完成了，你可以过来看看结果了。',
-  '刚才交给反重力的任务已经处理好了，过来确认一下吧。',
-  '反重力这边已经忙完了，有空的时候来看看结果吧。',
+  '刚才的任务完成了。',
+  '手头的任务完成了。',
+  '这边的任务完成了。',
 ];
 
 const TRIVIAL_TOPICS = new Set([
@@ -162,15 +162,15 @@ export function getOfflineCacheLines(config = DEFAULT_CONFIG) {
   return {
     done: {
       emotionKey: String(config.doneEmotion || 'gentle'),
-      text: `${pfx}反重力的任务已经完成了，你可以过来看看结果了。`,
+      text: `${pfx}刚才的任务完成了。`,
     },
     error: {
       emotionKey: String(config.errorEmotion || 'serious'),
-      text: `${pfx}反重力这边的任务刚刚遇到异常停下来了，你方便的时候过来检查一下吧。`,
+      text: `${pfx}刚才的任务遇到异常停下来了。`,
     },
     limit: {
       emotionKey: String(config.limitEmotion || 'calm'),
-      text: `${pfx}反重力任务已经告一段落停下来了，等你过来确认一下后续步骤。`,
+      text: `${pfx}刚才的任务告一段落了。`,
     },
   };
 }
@@ -427,28 +427,36 @@ export function extractCleanTopic(rawInput) {
   return topic;
 }
 
+function formatTopicSubject(topic) {
+  if (topic.endsWith('任务')) {
+    return topic;
+  }
+  return topic.startsWith('关于') ? `${topic}的任务` : `关于${topic}的任务`;
+}
+
 export function buildSpokenMessage(kind, payload = {}, config = DEFAULT_CONFIG) {
   const lines = getOfflineCacheLines(config);
+  const pfx = getAddressPrefix(config);
+  const topic = config.includeTaskTopic === false ? '' : extractCleanTopic(payload.lastUserInput);
+
   if (kind === 'error') {
-    return lines.error;
+    return {
+      emotionKey: lines.error.emotionKey,
+      text: topic ? `${pfx}${formatTopicSubject(topic)}遇到异常停下来了。` : lines.error.text,
+    };
   }
   if (kind === 'limit') {
-    return lines.limit;
+    return {
+      emotionKey: lines.limit.emotionKey,
+      text: topic ? `${pfx}${formatTopicSubject(topic)}告一段落了。` : lines.limit.text,
+    };
   }
 
-  const pfx = getAddressPrefix(config);
   const emotionKey = String(config.doneEmotion || 'gentle');
-  const topic = config.includeTaskTopic === false ? '' : extractCleanTopic(payload.lastUserInput);
   if (topic) {
-    if (topic.endsWith('任务')) {
-      return {
-        emotionKey,
-        text: `${pfx}反重力这边，${topic}已经完成了，你可以过来看看结果了。`,
-      };
-    }
     return {
       emotionKey,
-      text: `${pfx}反重力这边，关于${topic}的任务已经完成了，你可以过来看看结果了。`,
+      text: `${pfx}${formatTopicSubject(topic)}完成了。`,
     };
   }
 

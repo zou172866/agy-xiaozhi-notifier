@@ -61,32 +61,67 @@ test('extractCleanTopic filters trivial/boilerplate prompts and avoids half-word
   assert.equal(extractCleanTopic('fix bug in app.js'), '');
 });
 
-test('buildSpokenMessage respects addressPrefix and avoids duplicate 任务', () => {
+test('buildSpokenMessage respects addressPrefix concisely without 反重力 boilerplate', () => {
   const m1 = buildSpokenMessage(
     'done',
     { lastUserInput: '监控反重力的任务', conversationId: 'c1' },
     { doneEmotion: 'gentle', includeTaskTopic: true, addressPrefix: '' }
   );
   assert.equal(m1.emotionKey, 'gentle');
-  assert.equal(m1.text, '反重力这边，监控反重力的任务已经完成了，你可以过来看看结果了。');
+  assert.equal(m1.text, '监控反重力的任务完成了。');
 
   const m2 = buildSpokenMessage(
     'done',
     { lastUserInput: '帮我修复登录接口', conversationId: 'c2' },
     { doneEmotion: 'gentle', includeTaskTopic: true, addressPrefix: '哥哥，' }
   );
-  assert.equal(m2.text, '哥哥，反重力这边，关于修复登录接口的任务已经完成了，你可以过来看看结果了。');
+  assert.equal(m2.text, '哥哥，关于修复登录接口的任务完成了。');
+
+  const m2b = buildSpokenMessage(
+    'done',
+    { lastUserInput: '关于部署脚本调整', conversationId: 'c2b' },
+    { doneEmotion: 'gentle', includeTaskTopic: true, addressPrefix: '' }
+  );
+  assert.equal(m2b.text, '关于部署脚本调整的任务完成了。');
 
   const m3 = buildSpokenMessage(
     'done',
     { lastUserInput: '确认继续', conversationId: 'c3' },
     { doneEmotion: 'gentle', includeTaskTopic: true, addressPrefix: '' }
   );
-  assert.doesNotMatch(m3.text, /确认继续/);
+  assert.doesNotMatch(m3.text, /反重力|确认继续|看看结果/);
 
-  const m4 = buildSpokenMessage('error', { lastUserInput: '随便', conversationId: 'c4' });
+  const m4 = buildSpokenMessage(
+    'error',
+    { lastUserInput: '随便', conversationId: 'c4' },
+    { errorEmotion: 'serious', includeTaskTopic: true, addressPrefix: '' }
+  );
   assert.equal(m4.emotionKey, 'serious');
-  assert.match(m4.text, /异常/);
+  assert.equal(m4.text, '刚才的任务遇到异常停下来了。');
+  assert.doesNotMatch(m4.text, /反重力/);
+
+  const m4b = buildSpokenMessage(
+    'error',
+    { lastUserInput: '帮我修复登录接口', conversationId: 'c4b' },
+    { errorEmotion: 'serious', includeTaskTopic: true, addressPrefix: '哥哥，' }
+  );
+  assert.equal(m4b.text, '哥哥，关于修复登录接口的任务遇到异常停下来了。');
+
+  const m5 = buildSpokenMessage(
+    'limit',
+    { lastUserInput: '随便', conversationId: 'c5' },
+    { limitEmotion: 'calm', includeTaskTopic: true, addressPrefix: '哥哥，' }
+  );
+  assert.equal(m5.emotionKey, 'calm');
+  assert.equal(m5.text, '哥哥，刚才的任务告一段落了。');
+  assert.doesNotMatch(m5.text, /反重力/);
+
+  const m5b = buildSpokenMessage(
+    'limit',
+    { lastUserInput: '帮我修复登录接口', conversationId: 'c5b' },
+    { limitEmotion: 'calm', includeTaskTopic: true, addressPrefix: '' }
+  );
+  assert.equal(m5b.text, '关于修复登录接口的任务告一段落了。');
 });
 
 test('detectSubagentConversation distinguishes main conversations from workflow workers and subagents', async () => {
