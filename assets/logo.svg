@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="meiBg" x1="16" y1="16" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6D28D9"/>
+      <stop offset="100%" stop-color="#4338CA"/>
+    </linearGradient>
+    <linearGradient id="meiGlow" x1="36" y1="32" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F5D0FE"/>
+      <stop offset="100%" stop-color="#C4B5FD"/>
+    </linearGradient>
+  </defs>
+  <rect x="14" y="14" width="100" height="100" rx="26" fill="url(#meiBg)"/>
+  <circle cx="56" cy="64" r="21" fill="none" stroke="url(#meiGlow)" stroke-width="6"/>
+  <path d="M51 54 L66 64 L51 74 Z" fill="#FFFFFF"/>
+  <path d="M84 49 C91 57 91 71 84 79" fill="none" stroke="#F5D0FE" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M94 41 C105 53 105 75 94 87" fill="none" stroke="#DDD6FE" stroke-width="5" stroke-linecap="round"/>
+</svg>

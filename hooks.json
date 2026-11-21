@@ -1,0 +1,11 @@
+{
+  "agy-xiaozhi-task-notifier": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "node ./hooks/on-stop.mjs",
+        "timeout": 10
+      }
+    ]
+  }
+}

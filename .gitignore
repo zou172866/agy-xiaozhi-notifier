@@ -1,0 +1,12 @@
+# Local runtime config, logs, locks, and offline audio cache
+config.json
+state/
+cache/
+*.wav
+*.log
+*.tmp
+*.lock
+.env
+node_modules/
+.DS_Store
+Thumbs.db

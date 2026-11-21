@@ -1,0 +1,15 @@
+{
+  "name": "agy-xiaozhi-notifier",
+  "displayName": "小智·芽衣任务播报",
+  "version": "1.0.0",
+  "description": "监听 Google Antigravity 原生 Stop 生命周期钩子，自动过滤内部子代理/Workflow Worker，仅在主对话任务完成或异常停止时，通过本机 GPT-SoVITS 音色 + 小智 PC 音频桥接（含离线缓存与本地声卡兜底）主动开口语音播报。",
+  "author": "zou172866",
+  "homepage": "https://github.com/zou172866/agy-xiaozhi-notifier",
+  "repository": "https://github.com/zou172866/agy-xiaozhi-notifier",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "测试一下芽衣任务播报插件是否正常发声",
+    "查看芽衣任务播报插件最近的播报日志和配置",
+    "把芽衣任务播报的音量或情绪改成更活泼一点"
+  ]
+}

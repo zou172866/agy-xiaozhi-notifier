@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "ignoreSubagents": true,
+  "xiaozhiServerDir": "C:/path/to/xiaozhi-server",
+  "gsvBaseUrl": "http://127.0.0.1:19880",
+  "pcMcpBaseUrl": "http://127.0.0.1:18900",
+  "volume": 1.0,
+  "sampleSteps": 8,
+  "addressPrefix": "",
+  "doneEmotion": "gentle",
+  "errorEmotion": "serious",
+  "limitEmotion": "calm",
+  "announceOnError": true,
+  "announceOnLimit": true,
+  "includeTaskTopic": true,
+  "dedupeWindowMs": 4000,
+  "toastCooldownMs": 60000,
+  "toastAppId": "electron.app.Antigravity",
+  "autoPrecacheOfflineFallback": true,
+  "toastWhenGsvOffline": true
+}
