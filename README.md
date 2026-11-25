@@ -1,5 +1,7 @@
 # agy-xiaozhi-notifier
 
+[![Clones](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/zou172866/repo-traffic-archive/main/badges/agy-xiaozhi-notifier.json)](https://github.com/zou172866/repo-traffic-archive)
+
 **Google Antigravity 原生语音播报插件** —— 监听 Antigravity 原生 `Stop` 生命周期钩子，自动识别并过滤内部子代理与 `run_workflow` Worker，仅在主对话任务完成、异常中断或达到步数上限时，通过本机 **GPT-SoVITS（`19880`）** + **[小智 Windows PC 音频桥接（`18900`）](https://github.com/zou172866/xiaozhi-windows-pc-mcp)** 主动开口播报。
 
 > 零第三方云依赖 · 零 npm 外部依赖（纯 Node.js 24 原生 API + `node:sqlite`）· 无黑框静默后台运行 · 离线真语音缓存兜底
